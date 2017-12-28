@@ -17,8 +17,7 @@ const AppNavigator = StackNavigator(
         },
     },
     {
-        initialRouteName: 'Home',
-        lazy: true,
+        initialRouteName: 'Home'
     });
 
 export default AppNavigator;

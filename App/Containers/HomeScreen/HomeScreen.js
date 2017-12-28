@@ -3,14 +3,26 @@ import {
     Platform,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableOpacity,
 } from 'react-native';
 
 export default class HomeScreen extends Component {
+    static navigationOptions = {
+        header: null,
+    };
+
+
     render() {
         return (
             <View style={styles.container}>
-                <Text> This is Home Screen </Text>
+                <Text style={styles.welcome}> This is Home Screen </Text>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('BeerList')}
+                >
+                   <Text>Get the Beers list!</Text>
+                </TouchableOpacity>
+
             </View>
         );
     }
