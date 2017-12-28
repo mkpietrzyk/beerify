@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect, provider} from 'react-redux';
+import {Provider} from 'react-redux';
 import {
     Platform,
     StyleSheet,
