@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AppNavigator from '../Navigation/AppNavigator'
 import {
     Platform,
     StyleSheet,
@@ -7,18 +6,11 @@ import {
     View
 } from 'react-native';
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-    android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-export default class App extends Component<{}> {
+export default class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <AppNavigator/>
+                <Text> This is Home Screen </Text>
             </View>
         );
     }
@@ -29,7 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FDE3A7',
+        backgroundColor: '#aaa',
     },
     welcome: {
         fontSize: 20,
@@ -42,4 +34,3 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
-

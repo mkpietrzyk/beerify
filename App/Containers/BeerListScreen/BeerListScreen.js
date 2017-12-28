@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 
 
-export default class BeerDetailsScreen extends Component {
+export default class BeerListScreen extends Component {
     render() {
         return (
             <View>
-                <Text> This is Beer details Screen </Text>
+                <Text> This is Beer List Screen  with infitie listView</Text>
             </View>
         );
     }
