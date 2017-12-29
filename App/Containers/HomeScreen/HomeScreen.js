@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#aaa',
+        backgroundColor: '#FDE3A7',
     },
     welcome: {
         fontSize: 20,
