@@ -2,17 +2,31 @@ import * as ActionTypes from './ApiActionTypes'
 
 export const initialState = {
     beerList: [],
-    beerType: '',
-    beerVolume: 0,
-    beerIDA: null
+    beerListAnotherPage: [],
+    error: '',
 }
 
 export function reducer(state = initialState, action) {
-    switch(action.type){
-        case ActionTypes.GET_API_REQUEST: {
+    switch (action.type) {
+        case ActionTypes.GET_API_REQUEST_SUCCESS: {
             return {
                 ...state,
                 beerList: action.beerList
+            }
+        }
+
+        case ActionTypes.GET_BEER_LIST_ANOTHER_PAGE_SUCCESS: {
+            return {
+                ...state,
+                beerList: state.beerList.push(action.beerListAnotherPage)
+            }
+        }
+
+        case ActionTypes.GET_BEER_LIST_ANOTHER_PAGE_FAILURE:
+        case ActionTypes.GET_INITIAL_BEER_LIST_FAILURE: {
+            return {
+                ...state,
+                error: action.error
             }
         }
 
