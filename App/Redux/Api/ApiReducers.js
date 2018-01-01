@@ -1,6 +1,7 @@
 import * as ActionTypes from './ApiActionTypes'
 
 export const initialState = {
+    beerList: [],
     beerType: '',
     beerVolume: 0,
     beerIDA: null
@@ -11,7 +12,7 @@ export function reducer(state = initialState, action) {
         case ActionTypes.GET_API_REQUEST: {
             return {
                 ...state,
-                beerType: 'lel'
+                beerList: action.beerList
             }
         }
 

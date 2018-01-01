@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {
     Platform,
     StyleSheet,
@@ -6,16 +8,35 @@ import {
     View
 } from 'react-native';
 
+import {getBeerList} from '../../Redux/Api/ApiActions';
 
-export default class BeerListScreen extends Component {
+const mapStateToProps = state => ({
+    beerList: state.api
+});
+
+
+const mapDispatchToProps = dispatch => ({
+    getBeerList: () => dispatch(getBeerList())
+});
+
+export class BeerListScreen extends Component {
     static navigationOptions = {
         title: 'Beer List',
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle: {position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0},
         headerTintColor: '#000'
     };
 
+    static propTypes = {
+        getBeerList: PropTypes.func.isRequired
+    }
+
+    componentDidMount() {
+        this.props.getBeerList();
+    }
+
 
     render() {
+        console.log('my beer list', this.props.beerList);
         return (
             <View style={styles.container}>
                 <Text> This is Beer List Screen with infitie listView</Text>
@@ -42,3 +63,5 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
+
+export default connect(mapStateToProps,mapDispatchToProps)(BeerListScreen)
