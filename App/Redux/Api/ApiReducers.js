@@ -8,7 +8,7 @@ export const initialState = {
 
 export function reducer(state = initialState, action) {
     switch (action.type) {
-        case ActionTypes.GET_API_REQUEST_SUCCESS: {
+        case ActionTypes.GET_INITIAL_BEER_LIST_SUCCESS: {
             return {
                 ...state,
                 beerList: action.beerList
@@ -18,7 +18,7 @@ export function reducer(state = initialState, action) {
         case ActionTypes.GET_BEER_LIST_ANOTHER_PAGE_SUCCESS: {
             return {
                 ...state,
-                beerList: state.beerList.push(action.beerListAnotherPage)
+                beerList: state.beerList.concat(action.beerListAnotherPage)
             }
         }
 

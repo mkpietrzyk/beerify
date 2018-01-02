@@ -23,7 +23,7 @@ export const getBeerList = () => dispatch => {
     )
 }
 
-export const getBeerListPage = (page) => dispatch => {
+export const getBeerListAnotherPage = (page) => dispatch => {
     dispatch({type: ActionTypes.GET_BEER_LIST_ANOTHER_PAGE});
     const currentPage = '&page=' + page;
     const currentPageRequestUrl = requestUrl + currentPage;

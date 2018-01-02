@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {ListItem} from 'react-native-elements';
 
-import {getBeerList} from '../../Redux/Api/ApiActions';
+import {getBeerList, getBeerListAnotherPage} from '../../Redux/Api/ApiActions';
 
 const mapStateToProps = state => ({
     beerList: state.api.beerList
@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
 
 
 const mapDispatchToProps = dispatch => ({
-    getBeerList: () => dispatch(getBeerList())
+    getBeerList: () => dispatch(getBeerList()),
+    getBeerListAnotherPage: (page) => dispatch(getBeerListAnotherPage(page))
 });
 
 export class BeerListScreen extends Component {
@@ -29,7 +30,6 @@ export class BeerListScreen extends Component {
     };
 
     static propTypes = {
-        getBeerList: PropTypes.func.isRequired,
         beerList: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.number,
@@ -37,7 +37,9 @@ export class BeerListScreen extends Component {
                 tagline: PropTypes.string,
                 image_url: PropTypes.string
             })
-        ).isRequired
+        ).isRequired,
+        getBeerList: PropTypes.func.isRequired,
+        getBeerListAnotherPage: PropTypes.func.isRequired
     }
 
     componentDidMount() {
@@ -58,6 +60,11 @@ export class BeerListScreen extends Component {
         />
     )
 
+    _getAnotherPage = () => {
+        this.props.getBeerListAnotherPage(2);
+    }
+
+
 
     render() {
         console.log('my beer list', this.props.beerList);
@@ -69,6 +76,8 @@ export class BeerListScreen extends Component {
                     keyExtractor={beer => beer.id}
                     renderItem={beer => this._renderItem(beer.item)}
                     contentContainerStyle={styles.flatList}
+                    onEndReached={() => this._getAnotherPage()}
+                    onEndReachedTreshold={0}
                 />
             </View>
         );
