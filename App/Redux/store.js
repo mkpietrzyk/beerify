@@ -1,11 +1,13 @@
-import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
+import { compose, combineReducers, applyMiddleware } from 'redux';
 import {reducer as api} from './Api/ApiReducers';
+import {reducer as beer} from './BeerData/BeerDataReducers';
 import thunkMiddleware from 'redux-thunk';
 import Reactotron from 'reactotron-react-native';
 
 
 const reducers = combineReducers({
-    api
+    api,
+    beer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

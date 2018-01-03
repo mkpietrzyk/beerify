@@ -10,23 +10,30 @@ import {
 } from 'react-native';
 import {ListItem} from 'react-native-elements';
 
-import {getBeerList, getBeerListAnotherPage} from '../../Redux/Api/ApiActions';
+import {getBeerList, getBeerListAnotherPage, increasePageCount} from '../../Redux/Api/ApiActions';
+import {setCurrentBeerDetails} from "../../Redux/BeerData/BeerDataActions";
 
 const mapStateToProps = state => ({
-    beerList: state.api.beerList
+    beerList: state.api.beerList,
+    currentPage: state.api.currentPage
 });
 
 
 const mapDispatchToProps = dispatch => ({
     getBeerList: () => dispatch(getBeerList()),
-    getBeerListAnotherPage: (page) => dispatch(getBeerListAnotherPage(page))
+    getBeerListAnotherPage: (page) => dispatch(getBeerListAnotherPage(page)),
+    increasePageCount: (page) => dispatch(increasePageCount(page)),
+    setCurrentBeerDetails: beer => dispatch(setCurrentBeerDetails(beer))
 });
 
 export class BeerListScreen extends Component {
     static navigationOptions = {
         title: 'Beer List',
-        headerStyle: {position: 'relative', backgroundColor: '#F4B350', zIndex: 100, top: 0, left: 0, right: 0, borderBottomWidth: 0},
-        headerTintColor: '#000'
+        headerStyle: {
+            backgroundColor: '#F4B350',
+            borderBottomWidth: 0
+        },
+        headerTintColor: '#222'
     };
 
     static propTypes = {
@@ -38,14 +45,22 @@ export class BeerListScreen extends Component {
                 image_url: PropTypes.string
             })
         ).isRequired,
+        currentPage: PropTypes.number.isRequired,
         getBeerList: PropTypes.func.isRequired,
-        getBeerListAnotherPage: PropTypes.func.isRequired
+        getBeerListAnotherPage: PropTypes.func.isRequired,
+        increasePageCount: PropTypes.func.isRequired,
+        setCurrentBeerDetails: PropTypes.func.isRequired
     }
 
     componentDidMount() {
-        if(this.props.beerList.length === 0){
+        if (this.props.beerList.length === 0) {
             this.props.getBeerList();
         }
+    }
+
+    _navigateToBeerDetailsScreen = currentBeer => {
+        this.props.setCurrentBeerDetails(currentBeer);
+        this.props.navigation.navigate('BeerDetails');
     }
 
     _renderItem = beer => (
@@ -55,19 +70,31 @@ export class BeerListScreen extends Component {
             hideChevron
             avatar={beer.image_url && {uri: beer.image_url}}
             key={beer.id}
-            title={beer.name}
-            onPress={() => console.log('clicked the : ', beer.name)}
+            title={
+                <Text>
+                    {beer.name}
+                </Text>
+            }
+            subtitle={
+                <Text>
+                    {beer.tagline}
+                </Text>
+            }
+            onPress={() => this._navigateToBeerDetailsScreen(beer)}
         />
     )
 
     _getAnotherPage = () => {
-        this.props.getBeerListAnotherPage(2);
+        setTimeout(() => {
+            this.props.increasePageCount(this.props.currentPage);
+            this.props.getBeerListAnotherPage(this.props.currentPage);
+        }, 1500)
     }
-
 
 
     render() {
         console.log('my beer list', this.props.beerList);
+        console.log('currentPage', this.props.currentPage);
         return (
             <View style={styles.container}>
                 <Text> This is Beer List Screen with infitie listView</Text>
@@ -77,7 +104,7 @@ export class BeerListScreen extends Component {
                     renderItem={beer => this._renderItem(beer.item)}
                     contentContainerStyle={styles.flatList}
                     onEndReached={() => this._getAnotherPage()}
-                    onEndReachedTreshold={0}
+                    onEndReachedTreshold={100}
                 />
             </View>
         );
@@ -96,6 +123,9 @@ const styles = StyleSheet.create({
     },
     flatList: {
         borderWidth: 0,
+    },
+    listRow: {
+        height: 150
     },
     instructions: {
         textAlign: 'center',

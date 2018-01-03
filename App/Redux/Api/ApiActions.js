@@ -12,7 +12,6 @@ export const getBeerList = () => dispatch => {
         }
     ).then(
         (beerList) => {
-            console.log('got beers', beerList);
             dispatch({type: ActionTypes.GET_INITIAL_BEER_LIST_SUCCESS, beerList: beerList});
         }
     ).catch(
@@ -33,7 +32,6 @@ export const getBeerListAnotherPage = (page) => dispatch => {
         }
     ).then(
         (beerListAnotherPage) => {
-            console.log('got another page', beerListAnotherPage);
             dispatch({type: ActionTypes.GET_BEER_LIST_ANOTHER_PAGE_SUCCESS, beerListAnotherPage: beerListAnotherPage})
         }
     ).catch(
@@ -41,4 +39,27 @@ export const getBeerListAnotherPage = (page) => dispatch => {
             dispatch({type: ActionTypes.GET_BEER_LIST_ANOTHER_PAGE_FAILURE, beerListAnotherPage: [], error: errorFetching})
         }
     )
+}
+
+//
+// Commented section describing schortcuts from API, which are not described.
+//
+// beer ABV - Alcohol By Volume - listed in percentage - can go from 2 up to 10% I guess.
+// beer IBV - International Bitterness Units - listed as value from 0 to over 100 (120 at most I guess).
+// beer EBC - European Beer Convention - basically a color of beer listed on scale, goes from 4 to over 100
+//
+//
+
+
+export const getSimilarBeers = () => dispatch => {
+    dispatch({type: ActionTypes.GET_SIMILAR_BEERS});
+    const calculateSimilarIndex = () => {
+
+    }
+
+}
+
+export const increasePageCount = (page) => dispatch => {
+    const currentPage = page + 1;
+    dispatch({type: ActionTypes.INCREASE_PAGE_COUNT, currentPage: currentPage})
 }
