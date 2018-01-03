@@ -4,10 +4,12 @@ import {connect} from 'react-redux';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Image
 } from 'react-native';
 
 import {getSimilarBeers} from '../../Redux/Api/ApiActions';
+
 const mapStateToProps = state => ({
     currentBeerDetails: state.beer.currentBeerDetails,
 });
@@ -37,18 +39,32 @@ export class BeerDetailsScreen extends Component {
     }
 
     render() {
-        const { name, tagline, description, image_url, brewer_tips, ibv, abv, edc } = this.props.currentBeerDetails;
+        const {name, tagline, description, image_url, brewers_tips, ibu, abv, ebc} = this.props.currentBeerDetails;
 
         return (
             <View style={styles.container}>
-                <Text> {name} </Text>
-                <Text> {tagline} </Text>
-                <Text> {description} </Text>
-                <Text> {image_url} </Text>
-                <Text> {brewer_tips} </Text>
-                <Text> {ibv} </Text>
-                <Text> {abv} </Text>
-                <Text> {edc} </Text>
+
+                <View style={styles.headerView}>
+                    <Image
+                        style={styles.headerImage}
+                        source={{uri: image_url}}
+                    />
+
+                    <View style={styles.headerTextContainer}>
+                        <Text style={styles.header} numberOfLines={5}> {name} </Text>
+                        <Text style={styles.tagline}> {tagline} </Text>
+                        <Text style={styles.indexValue}> IBU : {ibu} </Text>
+                        <Text style={styles.indexValue}> ABV : {abv} </Text>
+                        <Text style={styles.indexValue}> EBC : {ebc} </Text>
+                    </View>
+                </View>
+
+                <View style={styles.detailsContentView}>
+                    <Text style={styles.header}> About </Text>
+                    <Text style={styles.description}> {description} </Text>
+                    <Text style={styles.header}> Tips </Text>
+                    <Text> {brewers_tips} </Text>
+                </View>
             </View>
         );
     }
@@ -57,19 +73,47 @@ export class BeerDetailsScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F39C12',
+        backgroundColor: '#FDE3A7',
+        alignItems: 'center',
+        padding: 10,
+
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+    headerView: {
+        flexDirection: 'row',
+        backgroundColor: '#F4B350',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 20,
     },
-    flatList: {
-        borderWidth: 0,
+    headerImage: {
+        width: 150,
+        height: 150,
+        resizeMode: 'contain'
     },
-    listRow: {
-        height: 150
+    headerTextContainer: {
+        flexDirection: 'column',
+        flexGrow: 1,
+        flex: 1,
     },
+    header: {
+        fontSize: 18,
+        fontWeight: '600',
+        paddingBottom: 5,
+    },
+    tagline: {
+        fontStyle: 'italic',
+        paddingBottom: 20,
+    },
+    detailsContentView: {
+        backgroundColor: '#F4B350',
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
+    description: {
+        fontSize: 14,
+        fontStyle: 'italic'
+    },
+    imageView: {},
     instructions: {
         textAlign: 'center',
         color: '#333333',

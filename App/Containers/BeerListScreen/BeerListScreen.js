@@ -97,7 +97,6 @@ export class BeerListScreen extends Component {
         console.log('currentPage', this.props.currentPage);
         return (
             <View style={styles.container}>
-                <Text> This is Beer List Screen with infitie listView</Text>
                 <FlatList
                     data={this.props.beerList}
                     keyExtractor={beer => beer.id}
@@ -114,7 +113,7 @@ export class BeerListScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F4B350',
+        backgroundColor: '#FDE3A7',
     },
     welcome: {
         fontSize: 20,
