@@ -51,7 +51,7 @@ export const getBeerListAnotherPage = (page) => dispatch => {
 //
 
 
-export const getSimilarBeers = () => dispatch => {
+export const getSimilarBeers = beerDetails => dispatch => {
     dispatch({type: ActionTypes.GET_SIMILAR_BEERS});
     const calculateSimilarIndex = () => {
 
