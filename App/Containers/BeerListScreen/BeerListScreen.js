@@ -11,6 +11,8 @@ import {ListItem} from 'react-native-elements';
 import {getBeerList, getBeerListAnotherPage, increasePageCount} from '../../Redux/Api/ApiActions';
 import {setCurrentBeerDetails} from "../../Redux/BeerData/BeerDataActions";
 
+import styles from './Styles/BeerListScreenStyles';
+
 const mapStateToProps = state => ({
     beerList: state.api.beerList,
     currentPage: state.api.currentPage
@@ -95,29 +97,4 @@ export class BeerListScreen extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ECECEC',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    avatarImage: {
-        resizeMode: 'contain',
-        width: 150,
-        height: 150,
-    },
-    avatarContainer: {
-        width: 150,
-        height: 150,
-    },
-    avatarOverlayContainer: {
-        backgroundColor: 'rgba(0,0,0,0)'
-    },
-});
-
 export default connect(mapStateToProps, mapDispatchToProps)(BeerListScreen)

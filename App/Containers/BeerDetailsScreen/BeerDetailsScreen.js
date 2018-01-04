@@ -14,7 +14,7 @@ import {ListItem} from 'react-native-elements';
 import {getSimilarBeers} from '../../Redux/Api/ApiActions';
 import {setCurrentBeerDetails} from "../../Redux/BeerData/BeerDataActions";
 
-import styles from './Style/BeerDetailsScreenStyles'
+import styles from './Styles/BeerDetailsScreenStyles'
 
 const mapStateToProps = state => ({
     currentBeerDetails: state.beer.currentBeerDetails,
@@ -77,7 +77,6 @@ export class BeerDetailsScreen extends Component {
     )
 
     _repopulateScreenWithCurrentBeer = selectedBeer => {
-        console.log(selectedBeer);
         this.props.setCurrentBeerDetails(selectedBeer);
         this.props.getSimilarBeers(this.props.currentBeerDetails);
         this.listView.scrollTo({x: 0, y: 0, animated: true});
@@ -101,9 +100,9 @@ export class BeerDetailsScreen extends Component {
                         <View style={styles.headerTextContainer}>
                             <Text style={styles.header}> {name} </Text>
                             <Text style={styles.tagline}> {tagline} </Text>
-                            <Text style={styles.indexValue}> IBU : {ibu} </Text>
-                            <Text style={styles.indexValue}> ABV : {abv} </Text>
-                            <Text style={styles.indexValue}> EBC : {ebc} </Text>
+                            <Text> IBU : {ibu} </Text>
+                            <Text> ABV : {abv} </Text>
+                            <Text> EBC : {ebc} </Text>
                         </View>
                     </View>
 
@@ -113,7 +112,6 @@ export class BeerDetailsScreen extends Component {
                         <Text style={styles.header}> Tips </Text>
                         <Text style={styles.detailsContentText}> {brewers_tips} </Text>
                         <Text style={styles.header}> You may also like: </Text>
-
                     </View>
 
                     <FlatList

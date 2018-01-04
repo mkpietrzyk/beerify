@@ -1,6 +1,6 @@
 export const Fonts = {
     size: {
-        title: 48,
+        title: 36,
         header: 24,
         subHeader: 18,
         text: 16,
