@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
-    Platform,
     StyleSheet,
-    Text,
     View,
     FlatList,
 } from 'react-native';
@@ -30,8 +28,7 @@ export class BeerListScreen extends Component {
     static navigationOptions = {
         title: 'Beer List',
         headerStyle: {
-            backgroundColor: '#F4B350',
-            borderBottomWidth: 0
+            backgroundColor: '#FDE3A7'
         },
         headerTintColor: '#222'
     };
@@ -66,20 +63,13 @@ export class BeerListScreen extends Component {
     _renderItem = beer => (
         <ListItem
             containerStyle={styles.listRow}
-            roundAvatar
-            hideChevron
+            avatarStyle={styles.avatarImage}
+            avatarContainerStyle={styles.avatarContainer}
+            avatarOverlayContainerStyle={styles.avatarOverlayContainer}
             avatar={beer.image_url && {uri: beer.image_url}}
             key={beer.id}
-            title={
-                <Text>
-                    {beer.name}
-                </Text>
-            }
-            subtitle={
-                <Text>
-                    {beer.tagline}
-                </Text>
-            }
+            title={beer.name}
+            subtitle={beer.tagline}
             onPress={() => this._navigateToBeerDetailsScreen(beer)}
         />
     )
@@ -91,19 +81,15 @@ export class BeerListScreen extends Component {
         }, 1500)
     }
 
-
     render() {
-        console.log('my beer list', this.props.beerList);
-        console.log('currentPage', this.props.currentPage);
         return (
             <View style={styles.container}>
                 <FlatList
                     data={this.props.beerList}
                     keyExtractor={beer => beer.id}
                     renderItem={beer => this._renderItem(beer.item)}
-                    contentContainerStyle={styles.flatList}
                     onEndReached={() => this._getAnotherPage()}
-                    onEndReachedTreshold={100}
+                    onEndReachedTreshold={150}
                 />
             </View>
         );
@@ -113,23 +99,24 @@ export class BeerListScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FDE3A7',
+        backgroundColor: '#ECECEC',
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
     },
-    flatList: {
-        borderWidth: 0,
+    avatarImage: {
+        resizeMode: 'contain',
+        width: 150,
+        height: 150,
     },
-    listRow: {
-        height: 150
+    avatarContainer: {
+        width: 150,
+        height: 150,
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+    avatarOverlayContainer: {
+        backgroundColor: 'rgba(0,0,0,0)'
     },
 });
 

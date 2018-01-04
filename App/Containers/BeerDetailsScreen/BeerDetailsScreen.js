@@ -5,21 +5,32 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    ScrollView,
+    Image,
+    FlatList
 } from 'react-native';
+import {ListItem} from 'react-native-elements';
 
 import {getSimilarBeers} from '../../Redux/Api/ApiActions';
+import {setCurrentBeerDetails} from "../../Redux/BeerData/BeerDataActions";
+
+import styles from './Style/BeerDetailsScreenStyles'
 
 const mapStateToProps = state => ({
     currentBeerDetails: state.beer.currentBeerDetails,
+    similarBeers: state.api.similarBeers
 });
+
+const mapDispatchToProps = dispatch => ({
+    getSimilarBeers: (beerDetails) => dispatch(getSimilarBeers(beerDetails)),
+    setCurrentBeerDetails: (beer) => dispatch(setCurrentBeerDetails(beer))
+})
 
 export class BeerDetailsScreen extends Component {
     static navigationOptions = {
         title: 'Beer Details',
         headerStyle: {
-            backgroundColor: '#F39C12',
-            borderBottomWidth: 0
+            backgroundColor: '#FDE3A7'
         },
         headerTintColor: '#000'
     };
@@ -35,90 +46,86 @@ export class BeerDetailsScreen extends Component {
             abv: PropTypes.number,
             ebc: PropTypes.number
         }).isRequired,
-
+        smiliarBeers: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number,
+                name: PropTypes.string,
+                tagline: PropTypes.string,
+                image_url: PropTypes.string
+            })
+        ).isRequired,
+        getSimilarBeers: PropTypes.func.isRequired,
+        setCurrentBeerDetails: PropTypes.func.isRequired
     }
+
+    componentDidMount() {
+        this.props.getSimilarBeers(this.props.currentBeerDetails);
+    }
+
+    _renderItem = beer => (
+        <ListItem
+            containerStyle={styles.listRow}
+            avatarStyle={styles.avatarImage}
+            avatarContainerStyle={styles.avatarContainer}
+            avatarOverlayContainerStyle={styles.avatarOverlayContainer}
+            avatar={beer.image_url && {uri: beer.image_url}}
+            key={beer.id}
+            title={beer.name}
+            subtitle={beer.tagline}
+            onPress={() => this._repopulateScreenWithCurrentBeer(beer)}
+        />
+    )
+
+    _repopulateScreenWithCurrentBeer = selectedBeer => {
+        console.log(selectedBeer);
+        this.props.setCurrentBeerDetails(selectedBeer);
+        this.props.getSimilarBeers(this.props.currentBeerDetails);
+        this.listView.scrollTo({x: 0, y: 0, animated: true});
+    }
+
 
     render() {
         const {name, tagline, description, image_url, brewers_tips, ibu, abv, ebc} = this.props.currentBeerDetails;
-
         return (
             <View style={styles.container}>
+                <ScrollView
+                    ref={ref => this.listView = ref}
+                >
 
-                <View style={styles.headerView}>
-                    <Image
-                        style={styles.headerImage}
-                        source={{uri: image_url}}
+                    <View style={styles.headerView}>
+                        <Image
+                            style={styles.headerImage}
+                            source={image_url && {uri: image_url}}
+                        />
+
+                        <View style={styles.headerTextContainer}>
+                            <Text style={styles.header}> {name} </Text>
+                            <Text style={styles.tagline}> {tagline} </Text>
+                            <Text style={styles.indexValue}> IBU : {ibu} </Text>
+                            <Text style={styles.indexValue}> ABV : {abv} </Text>
+                            <Text style={styles.indexValue}> EBC : {ebc} </Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.detailsContentView}>
+                        <Text style={styles.header}> About </Text>
+                        <Text style={styles.detailsContentText}> {description} </Text>
+                        <Text style={styles.header}> Tips </Text>
+                        <Text style={styles.detailsContentText}> {brewers_tips} </Text>
+                        <Text style={styles.header}> You may also like: </Text>
+
+                    </View>
+
+                    <FlatList
+                        data={this.props.similarBeers}
+                        keyExtractor={beer => beer.id}
+                        renderItem={beer => this._renderItem(beer.item)}
                     />
 
-                    <View style={styles.headerTextContainer}>
-                        <Text style={styles.header} numberOfLines={5}> {name} </Text>
-                        <Text style={styles.tagline}> {tagline} </Text>
-                        <Text style={styles.indexValue}> IBU : {ibu} </Text>
-                        <Text style={styles.indexValue}> ABV : {abv} </Text>
-                        <Text style={styles.indexValue}> EBC : {ebc} </Text>
-                    </View>
-                </View>
-
-                <View style={styles.detailsContentView}>
-                    <Text style={styles.header}> About </Text>
-                    <Text style={styles.description}> {description} </Text>
-                    <Text style={styles.header}> Tips </Text>
-                    <Text> {brewers_tips} </Text>
-                </View>
+                </ScrollView>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FDE3A7',
-        alignItems: 'center',
-        padding: 10,
-
-    },
-    headerView: {
-        flexDirection: 'row',
-        backgroundColor: '#F4B350',
-        alignItems: 'center',
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    headerImage: {
-        width: 150,
-        height: 150,
-        resizeMode: 'contain'
-    },
-    headerTextContainer: {
-        flexDirection: 'column',
-        flexGrow: 1,
-        flex: 1,
-    },
-    header: {
-        fontSize: 18,
-        fontWeight: '600',
-        paddingBottom: 5,
-    },
-    tagline: {
-        fontStyle: 'italic',
-        paddingBottom: 20,
-    },
-    detailsContentView: {
-        backgroundColor: '#F4B350',
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    description: {
-        fontSize: 14,
-        fontStyle: 'italic'
-    },
-    imageView: {},
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
-
-export default connect(mapStateToProps)(BeerDetailsScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(BeerDetailsScreen)

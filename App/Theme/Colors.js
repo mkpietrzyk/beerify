@@ -1,6 +1,7 @@
-const colors = {
-    primary : '#FDE3A7', // Cape Honey
-    secondary : '#F4B350', // Casablanca
+const Colors = {
+    main : '#ECECEC',
+    secondary : '#F89406',
+    label: '#FDE3A7'
 }
 
-export default colors;
+export default Colors;

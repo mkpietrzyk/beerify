@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Platform,
     StyleSheet,
     Text,
     View,
@@ -12,13 +11,17 @@ export default class HomeScreen extends Component {
         header: null,
     };
 
+    _navigateToBeerList = () => {
+        this.props.navigation.navigate('BeerList');
+    }
+
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}> This is Home Screen </Text>
+                <Text style={styles.welcome}> BEERIFY </Text>
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('BeerList')}
+                    onPress={() => this._navigateToBeerList()}
                 >
                    <Text>Get the Beers list!</Text>
                 </TouchableOpacity>
@@ -33,12 +36,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FDE3A7',
+        backgroundColor: '#ECECEC',
     },
     welcome: {
-        fontSize: 20,
+        fontSize: 36,
         textAlign: 'center',
+        fontWeight: '700',
         margin: 10,
+        color: '#F5AB35'
     },
     instructions: {
         textAlign: 'center',
