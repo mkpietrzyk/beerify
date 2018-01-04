@@ -5,6 +5,7 @@ import {
     StyleSheet,
     View,
     FlatList,
+    ActivityIndicator
 } from 'react-native';
 import {ListItem} from 'react-native-elements';
 
@@ -64,7 +65,7 @@ export class BeerListScreen extends Component {
 
     _renderItem = beer => (
         <ListItem
-            containerStyle={styles.listRow}
+            chevronColor={'#F89406'}
             avatarStyle={styles.avatarImage}
             avatarContainerStyle={styles.avatarContainer}
             avatarOverlayContainerStyle={styles.avatarOverlayContainer}

@@ -64,7 +64,7 @@ export class BeerDetailsScreen extends Component {
 
     _renderItem = beer => (
         <ListItem
-            containerStyle={styles.listRow}
+            chevronColor={'#F89406'}
             avatarStyle={styles.avatarImage}
             avatarContainerStyle={styles.avatarContainer}
             avatarOverlayContainerStyle={styles.avatarOverlayContainer}
